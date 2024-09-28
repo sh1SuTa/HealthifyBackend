@@ -1,13 +1,14 @@
 package com.putileaf.healthify.service.impl;
 
+import com.putileaf.healthify.service.MailCodeService;
+import com.putileaf.healthify.utils.FourCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import top.putileaf.service.MailCodeService;
-import top.putileaf.utils.MailSendCode;
+
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,7 +30,7 @@ public class MailCodeServiceImpl implements MailCodeService {
     @Override
     public void sendCodeMail(String username, String email) {
         //生成一个四位数验证码
-        String code = MailSendCode.getCode();
+        String code = FourCode.getCode();
         ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
         //将验证码存入redis，设置验证码有效期五分钟
         operations.set(username,code,5, TimeUnit.MINUTES);

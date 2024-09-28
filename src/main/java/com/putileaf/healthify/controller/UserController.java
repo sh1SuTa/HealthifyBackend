@@ -3,6 +3,10 @@ package com.putileaf.healthify.controller;
 import com.putileaf.healthify.entity.Result;
 import com.putileaf.healthify.entity.User;
 import com.putileaf.healthify.service.MailCodeService;
+import com.putileaf.healthify.service.UserService;
+import com.putileaf.healthify.utils.JwtUtil;
+import com.putileaf.healthify.utils.Md5Util;
+import com.putileaf.healthify.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +62,7 @@ public class UserController {
             //给Map集合加id和username字段
             claims.put("id",loginUser.getId());
             claims.put("username",loginUser.getUsername());
-            claims.put("vip",loginUser.getVip());
+            claims.put("level",loginUser.getLevel());
             //生成JWT令牌
             String token = JwtUtil.genToken(claims);
             //把token存储在redis中

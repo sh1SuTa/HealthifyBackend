@@ -1,5 +1,7 @@
 package com.putileaf.healthify.service;
 
+
+
 public interface MailCodeService {
 
     boolean codeIsHave(String username);
