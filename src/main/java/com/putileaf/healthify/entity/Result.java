@@ -19,6 +19,9 @@ public class Result<T> {
     public static Result<String> success(String message) {
         return new Result<>(0, message, null);
     }
+    public static <E> Result<E> success(E data) {
+        return new Result<>(0, null, data);
+    }
     public static <E> Result<E> success(String message,E data) {
         return new Result<>(0, message, data);
     }

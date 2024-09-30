@@ -42,7 +42,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.3</version>
+            <version>3.5.7</version>
         </dependency>
         <!--jwt令牌依赖-->
         <dependency>
