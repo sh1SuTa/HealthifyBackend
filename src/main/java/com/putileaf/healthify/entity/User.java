@@ -16,7 +16,7 @@ public class User {
 
     @NotNull private Integer id;//主键ID
 
-    private String username;//用户名
+    private String username;//用户名也是账号
 
     //让springMvc把当前对象转json时，忽略password
     @JsonIgnore private String password;//密码

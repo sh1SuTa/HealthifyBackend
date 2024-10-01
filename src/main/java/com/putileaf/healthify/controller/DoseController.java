@@ -21,11 +21,9 @@ public class DoseController {
 
     @PostMapping("/add")
     public Result<String> add(@RequestBody @Validated Dose dose){
-        try {
+
             doseService.add(dose);
-        }catch (Exception e){
-            return Result.error("添加失败");
-        }
+
         return Result.success("添加成功");
     }
     @GetMapping("/list")
