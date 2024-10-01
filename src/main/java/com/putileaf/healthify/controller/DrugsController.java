@@ -1,8 +1,8 @@
 package com.putileaf.healthify.controller;
 
-import com.putileaf.healthify.entity.Dose;
+import com.putileaf.healthify.entity.Drugs;
 import com.putileaf.healthify.entity.Result;
-import com.putileaf.healthify.service.DoseService;
+import com.putileaf.healthify.service.DrugsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -12,23 +12,23 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/dose")
-public class DoseController {
+@RequestMapping("/drugs")
+public class DrugsController {
 
     @Autowired
-    DoseService doseService;
+    DrugsService drugsService;
 
 
     @PostMapping("/add")
-    public Result<String> add(@RequestBody @Validated Dose dose){
+    public Result<String> add(@RequestBody @Validated Drugs drugs){
 
-            doseService.add(dose);
+            drugsService.add(drugs);
 
         return Result.success("添加成功");
     }
     @GetMapping("/list")
-        public Result<List<Dose>> list(@RequestParam String keyWord){
-        return Result.success(doseService.list(keyWord));
+        public Result<List<Drugs>> list(@RequestParam String keyWord){
+        return Result.success(drugsService.list(keyWord));
     }
 
 }

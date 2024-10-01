@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.URL;
 import java.time.LocalDateTime;
 
 @Data
-public class Dose {
+public class Drugs {
 
     private Integer id;//主键ID
 
