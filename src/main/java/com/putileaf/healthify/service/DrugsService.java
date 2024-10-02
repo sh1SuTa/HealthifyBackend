@@ -11,5 +11,5 @@ public interface DrugsService {
 
     void add(Drugs drugs);
 
-//    List<Drugs> list(String keyWord);
+    List<Drugs> list(String keyWord);
 }

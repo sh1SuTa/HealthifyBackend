@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.putileaf.healthify.mapper.DrugsAliasMapper">
+
+    <select id="findNamesByKeyword" resultType="java.lang.String">
+        SELECT DISTINCT name FROM drugs_alias
+        <if test="keyword != null and keyword != ''">
+            WHERE drugs_alias LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+    </select>
+
+</mapper>

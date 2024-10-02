@@ -28,11 +28,11 @@ public class DrugsServiceImpl implements DrugsService {
         int i = drugsMapper.insert(drugs);
     }
 
-//    @Override
-//    public List<Drugs> list(String keyWord) {
-//        List<String> nameList = drugsAliasService.list(keyWord);
-//        // 将 keyWord 本身加入到 nameList 中
-//        nameList.add(keyWord);
-//        return drugsMapper.listByNames(nameList);
-//    }
+    @Override
+    public List<Drugs> list(String keyWord) {
+        List<String> nameList = drugsAliasService.list(keyWord);
+        // 将 keyWord 本身加入到 nameList 中
+        nameList.add(keyWord);
+        return drugsMapper.listByNames(nameList);
+    }
 }
