@@ -1,5 +1,12 @@
 package com.putileaf.healthify.controller;
 
+import com.putileaf.healthify.entity.Result;
+import com.putileaf.healthify.entity.User;
+import com.putileaf.healthify.service.MailCodeService;
+import com.putileaf.healthify.service.UserService;
+import com.putileaf.healthify.utils.JwtUtil;
+import com.putileaf.healthify.utils.Md5Util;
+import com.putileaf.healthify.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,13 +16,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import top.putileaf.pojo.Result;
-import top.putileaf.pojo.User;
-import top.putileaf.service.MailCodeService;
-import top.putileaf.service.UserService;
-import top.putileaf.utils.JwtUtil;
-import top.putileaf.utils.Md5Util;
-import top.putileaf.utils.ThreadLocalUtil;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class UserController {
             //给Map集合加id和username字段
             claims.put("id",loginUser.getId());
             claims.put("username",loginUser.getUsername());
-            claims.put("vip",loginUser.getVip());
+            claims.put("level",loginUser.getLevel());
             //生成JWT令牌
             String token = JwtUtil.genToken(claims);
             //把token存储在redis中
@@ -77,12 +78,10 @@ public class UserController {
     //根据用户名查询用户
     @GetMapping("/userInfo")
     public Result<User> userinfo(){
-//        Map<String, Object> map = JwtUtil.parseToken(token);
-//        System.out.println(map.keySet());
         Map<String,Object> map = ThreadLocalUtil.get();
         String username =(String) map.get("username");
         User user = userService.findByUsername(username);
-        return Result.success(user);
+        return Result.success(null,user);
     }
 
     //更新
@@ -90,14 +89,14 @@ public class UserController {
     //Validated让传入的参数进行对象变量校验
     public Result<String> update(@RequestBody @Validated User user){
         userService.update(user);
-        return Result.successT("修改成功");
+        return Result.success("修改成功");
     }
 
     //修改头像
     @PatchMapping("/updateAvatar")
     public Result<String> updateAvatar(@RequestParam @URL String avatarUrl){
         userService.updateAvatar(avatarUrl);
-        return Result.successT("修改头像成功");
+        return Result.success("修改头像成功");
     }
 
 
@@ -130,7 +129,7 @@ public class UserController {
         //删除redis中的旧token
         ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
         operations.getOperations().delete(token);
-        return Result.successT("修改成功");
+        return Result.success("修改成功");
     }
 
     //忘记密码raw-json
@@ -158,7 +157,7 @@ public class UserController {
             return Result.error("密码长度必须在5-16位");
         }
         userService.forgetPwd(username,newPwd);
-        return Result.successT("重置密码成功");
+        return Result.success("重置密码成功");
     }
 
     //获取重置密码的验证码
@@ -181,7 +180,7 @@ public class UserController {
         }
         //发送邮件
         mailCodeService.sendCodeMail(username, userMail);
-        return Result.successT("发送成功");
+        return Result.success("发送成功");
     }
 
 

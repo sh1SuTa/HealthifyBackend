@@ -16,7 +16,7 @@ public class User {
 
     @NotNull private Integer id;//主键ID
 
-    private String username;//用户名
+    private String username;//用户名也是账号
 
     //让springMvc把当前对象转json时，忽略password
     @JsonIgnore private String password;//密码
@@ -28,5 +28,5 @@ public class User {
     private String userPic;//用户头像地址
     private LocalDateTime createTime;//创建时间
     private LocalDateTime updateTime;//更新时间
-    private Integer vip;//判断会员等级
+    private Integer level;//0普通，1会员，3版主，4管理员
 }
