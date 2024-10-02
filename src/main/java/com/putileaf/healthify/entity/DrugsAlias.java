@@ -4,13 +4,13 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class DoseAlias {
+public class DrugsAlias {
     private Integer id;//主键ID
 
     @NotEmpty
     private String name;//药物名称
 
-    private String doseAlias;
+    private String drugsAlias;
 
-    private Integer doseId;
+    private Integer drugsId;
 }

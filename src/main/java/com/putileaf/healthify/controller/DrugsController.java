@@ -21,14 +21,12 @@ public class DrugsController {
 
     @PostMapping("/add")
     public Result<String> add(@RequestBody @Validated Drugs drugs){
-
             drugsService.add(drugs);
-
         return Result.success("添加成功");
     }
-    @GetMapping("/list")
-        public Result<List<Drugs>> list(@RequestParam String keyWord){
-        return Result.success(drugsService.list(keyWord));
-    }
+//    @GetMapping("/list")
+//        public Result<List<Drugs>> list(@RequestParam String keyWord){
+//        return Result.success(drugsService.list(keyWord));
+//    }
 
 }

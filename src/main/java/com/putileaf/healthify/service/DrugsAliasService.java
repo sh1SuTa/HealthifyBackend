@@ -2,7 +2,8 @@ package com.putileaf.healthify.service;
 
 import java.util.List;
 
-public interface DoseAliasService {
+
+public interface DrugsAliasService {
 
     List<String> list(String keyWord);
 }

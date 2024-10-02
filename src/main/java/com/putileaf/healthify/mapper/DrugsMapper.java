@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface DoseMapper extends BaseMapper<Drugs> {
+public interface DrugsMapper extends BaseMapper<Drugs> {
 
 
     List<Drugs> listByNames(@Param("names") List<String> names);
