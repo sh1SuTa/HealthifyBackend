@@ -25,7 +25,7 @@ public class DrugsServiceImpl implements DrugsService {
         Map<String,Object> map = ThreadLocalUtil.get();
         Integer userId = (Integer)map.get("id");
         drugs.setCreateUser(userId);
-        int i = drugsMapper.insert(drugs);
+        drugsMapper.insert(drugs);
     }
 
     @Override
