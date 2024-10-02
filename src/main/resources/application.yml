@@ -1,10 +1,10 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://123.57.186.79:3306/healthyify
+    url: jdbc:mysql:/127.0.1:3306/healthyify
     username: root
-    password: Wjt18409438!
-  #    password: 1234
+
+    password: 1234
 
   data:
     redis:
@@ -13,8 +13,8 @@ spring:
 
   mail:
 
-    username: putileaf@foxmail.com
-    password: fjlsnqqinrgrddbc
+    username: 
+    password: 
     host: smtp.qq.com
 
 
