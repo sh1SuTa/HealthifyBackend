@@ -13,16 +13,20 @@ public class WebConfig implements WebMvcConfigurer {
 
 
     @Autowired
-    private LoginInterceptor loginInterceptors;
+    private LoginInterceptor loginInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 指定需要拦截的接口
-        String[] needInterceptPaths = {"/dose/add", "/user/info", "/order/**"};
-        registry.addInterceptor(loginInterceptors)
-                .addPathPatterns(needInterceptPaths);
+
+        // 指定需要排除的路径
+        String[] excludePaths = {"user/login", "/css/**", "/js/**", "/images/**", "/favicon.ico"};
+
+        // 添加拦截器，并排除指定的路径
+        registry.addInterceptor(loginInterceptor)
+                .excludePathPatterns(excludePaths);  // 排除指定的路径
     }
 
+    // 配置跨域CORS
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 配置允许所有路径
@@ -31,6 +35,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("*") // 允许所有的头部
                 .allowCredentials(true) // 允许携带凭证
                 .maxAge(3600); // 预检请求的有效期，单位秒
+
 
     }
 

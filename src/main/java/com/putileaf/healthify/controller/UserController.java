@@ -7,6 +7,7 @@ import com.putileaf.healthify.service.UserService;
 import com.putileaf.healthify.utils.JwtUtil;
 import com.putileaf.healthify.utils.Md5Util;
 import com.putileaf.healthify.utils.ThreadLocalUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class UserController {
     @Autowired private MailCodeService mailCodeService;
     @PostMapping("/register")
     //判断是否符合用户名规则
-    public Result register(@Pattern(regexp="^\\S{5,16}$")String username,@Pattern(regexp="^\\S{5,16}$")String password){
+    public Result<String> register(@Pattern(regexp="^\\S{5,16}$")String username,@Pattern(regexp="^\\S{5,16}$")String password){
             //查询用户
             User u = userService.findByUsername(username);
             if (u==null){//可以注册
@@ -69,7 +70,7 @@ public class UserController {
             ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
             operations.set(token,token,1, TimeUnit.HOURS);
             //返回JWT令牌
-            return Result.success(token);
+            return Result.success("登录成功",token);
         }
         return Result.error("密码错误");
     }
@@ -77,11 +78,30 @@ public class UserController {
 
     //根据用户名查询用户
     @GetMapping("/userInfo")
-    public Result<User> userinfo(){
-        Map<String,Object> map = ThreadLocalUtil.get();
-        String username =(String) map.get("username");
-        User user = userService.findByUsername(username);
-        return Result.success(null,user);
+    public Result<User> userinfo(HttpServletRequest request){
+        try {
+            // 打印或处理 authorization
+            String token = request.getHeader("Authorization");
+            //从redis获取token
+            ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+            //能找到token
+            String redisToken = operations.get(token);
+            //找不到token
+            if (redisToken==null){
+                //token失效
+                throw new RuntimeException();
+            }
+            //找到的token解析出来
+            Map<String, Object> claims = JwtUtil.parseToken(token);
+            //把业务数据存储到ThreadLocal中
+            ThreadLocalUtil.set(claims);
+            Map<String,Object> map = ThreadLocalUtil.get();
+            String username =(String) map.get("username");
+            User user = userService.findByUsername(username);
+            return Result.success("查询成功",user);
+        }catch (IllegalArgumentException e){
+            return Result.success("未登录",null);
+        }
     }
 
     //更新

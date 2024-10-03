@@ -12,6 +12,6 @@ import java.util.List;
 public interface DrugsMapper extends BaseMapper<Drugs> {
 
 
-    List<Drugs> listByNames(@Param("names") List<String> names);
+    List<Drugs> listByNames(@Param("nameList") List<String> names);
 
 }

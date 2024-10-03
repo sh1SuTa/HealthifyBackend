@@ -28,5 +28,5 @@ public class User {
     private String userPic;//用户头像地址
     private LocalDateTime createTime;//创建时间
     private LocalDateTime updateTime;//更新时间
-    private Integer level;//0普通，1会员，3版主，4管理员
+    private Integer level;//0普通，1会员，2版主，3管理员
 }

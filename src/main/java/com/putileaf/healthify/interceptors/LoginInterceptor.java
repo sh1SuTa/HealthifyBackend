@@ -31,8 +31,20 @@ public class LoginInterceptor implements HandlerInterceptor {
      * <p>{@code @NonNull} 代表response不为空，{@code  @Nullable} 代表handler允许为空  */
     @Override
     public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @Nullable Object handler) {
+        // 检查请求方法是否为 OPTIONS
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
+            response.setHeader("Access-Control-Allow-Headers", "authorization, content-type");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+            response.setHeader("Access-Control-Max-Age", "3600");
+            return true;
+        }
         //获取令牌
         String token = request.getHeader("Authorization");
+
+
+
         //验证token
         try {
             //从redis获取token
@@ -48,18 +60,19 @@ public class LoginInterceptor implements HandlerInterceptor {
             Map<String, Object> claims = JwtUtil.parseToken(token);
             //把业务数据存储到ThreadLocal中
             ThreadLocalUtil.set(claims);
+            System.out.println("解析出来的token"+claims);
             //已登录放行
             return true;
         } catch (Exception e) {
             //http响应码401
             response.setStatus(401);
-            //未登录不给予放行
+            //未登录不给予放行，也不一定是未登录
             return false;
         }
     }
 
     @Override
-    public void afterCompletion(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,@Nullable Object handler, Exception ex) throws Exception {
+    public void afterCompletion(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,@Nullable Object handler, Exception ex){
         //清空ThreadLocal中的token数据
         ThreadLocalUtil.remove();
     }
