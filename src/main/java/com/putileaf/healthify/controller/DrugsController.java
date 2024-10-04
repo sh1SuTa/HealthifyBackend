@@ -46,4 +46,21 @@ public class DrugsController {
         return Result.success("成功",drugsService.getById(id));
     }
 
+    //编辑功能，TODO
+    @PutMapping("/edit")
+    public Result<String> edit(@RequestBody @Validated Drugs drugsModel){
+
+        Map<String,Object> map = ThreadLocalUtil.get();
+        Integer userId = (Integer)map.get("id");
+        Integer level = (Integer)map.get("level");
+
+        if (level < 2){
+            return Result.error("只有版主才能使用");
+        }
+        drugsModel.setCreateUser(userId);
+        drugsService.updateById(drugsModel);
+        return Result.success("编辑成功");
+    }
+
+
 }
