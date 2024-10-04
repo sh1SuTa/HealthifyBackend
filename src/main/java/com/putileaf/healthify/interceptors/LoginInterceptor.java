@@ -28,7 +28,10 @@ public class LoginInterceptor implements HandlerInterceptor {
      <p>{@code HttpServletResponse response}
         *描述：表示当前 HTTP 响应的信息，可以用来设置响应头、响应状态码、响应体等。
         *用途：可以用来设置响应头、重定向、发送响应数据等。
-     * <p>{@code @NonNull} 代表response不为空，{@code  @Nullable} 代表handler允许为空  */
+     * <p>{@code @NonNull} 代表response不为空，{@code  @Nullable} 代表handler允许为空
+     * <p>
+     *   对于复杂请求POST，需要预处理OPTIONS请求，否则会报错</p>
+     * */
     @Override
     public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @Nullable Object handler) {
         // 检查请求方法是否为 OPTIONS
@@ -42,8 +45,6 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         //获取令牌
         String token = request.getHeader("Authorization");
-
-
 
         //验证token
         try {
@@ -60,7 +61,6 @@ public class LoginInterceptor implements HandlerInterceptor {
             Map<String, Object> claims = JwtUtil.parseToken(token);
             //把业务数据存储到ThreadLocal中
             ThreadLocalUtil.set(claims);
-            System.out.println("解析出来的token"+claims);
             //已登录放行
             return true;
         } catch (Exception e) {

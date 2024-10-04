@@ -34,10 +34,15 @@ public class DrugsController {
         drugsService.add(drugsModel);
         return Result.success("添加成功");
     }
+
     @GetMapping("/list")
-        public Result<List<Drugs>> list(@RequestParam(required = false, defaultValue = "") String searchKeyword){
-        System.out.println("keyWord = " + searchKeyword);
+    public Result<List<Drugs>> list(@RequestParam(required = false, defaultValue = "") String searchKeyword){
+
         return Result.success("成功",drugsService.list(searchKeyword));
+    }
+    @GetMapping("/list/{id}")
+    public Result<Drugs> listId(@PathVariable("id") Integer id){
+        return Result.success("成功",drugsService.getById(id));
     }
 
 }
