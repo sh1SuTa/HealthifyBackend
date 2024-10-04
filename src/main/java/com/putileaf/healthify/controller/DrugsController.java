@@ -23,10 +23,11 @@ public class DrugsController {
 
     @PostMapping("/add")
     public Result<String> add(@RequestBody @Validated Drugs drugsModel){
-        System.out.println("请求到添加");
+
         Map<String,Object> map = ThreadLocalUtil.get();
         Integer userId = (Integer)map.get("id");
         Integer level = (Integer)map.get("level");
+
         if (level < 2){
             return Result.error("只有版主才能使用");
         }

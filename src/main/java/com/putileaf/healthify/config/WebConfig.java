@@ -19,7 +19,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 
         // 指定需要排除的路径
-        String[] excludePaths = {"/user/login", "/user/userInfo", "/drugs/list", "/drugs/list/**", "/favicon.ico"};
+        String[] excludePaths = {"/user/login", "/user/userInfo", "/drugs/list", "/drugs/list/**"};
 
         // 添加拦截器，并排除指定的路径
         registry.addInterceptor(loginInterceptor)
