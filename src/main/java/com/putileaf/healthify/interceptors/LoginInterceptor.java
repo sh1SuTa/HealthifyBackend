@@ -31,7 +31,7 @@ public class LoginInterceptor implements HandlerInterceptor {
      * <p>{@code @NonNull} 代表response不为空，{@code  @Nullable} 代表handler允许为空
      * <p>
      *   对于复杂请求POST，需要预处理OPTIONS请求，否则会报错</p>
-     * */
+      */
     @Override
     public boolean preHandle(HttpServletRequest request, @NonNull HttpServletResponse response, @Nullable Object handler) {
         // 检查请求方法是否为 OPTIONS
@@ -43,6 +43,9 @@ public class LoginInterceptor implements HandlerInterceptor {
             response.setHeader("Access-Control-Max-Age", "3600");
             return true;
         }
+        System.out.println("Intercepted path: " + request.getRequestURI());
+        System.out.println("Full request URL: " + request.getRequestURL());
+        System.out.println("Query string: " + request.getQueryString());
         //获取令牌
         String token = request.getHeader("Authorization");
 
